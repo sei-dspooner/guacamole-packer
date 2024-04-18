@@ -1,8 +1,8 @@
 ---
-- hosts: all
-  name: Install Guacamole Docker composition
-  become: yes
-  become_method: sudo
+- name: Install Guacamole Docker composition
+  hosts: all
+  become: true
+  become_method: ansible.builtin.sudo
   tasks:
     - name: Install Guacamole Docker composition
       ansible.builtin.include_role:
@@ -30,11 +30,11 @@
         guacamole_windows_sftp_base: >-
           {{ lookup('aws_ssm', '/vnc/sftp/windows_base_directory') }}
     # boto3 is needed during deployment to fetch SSL certificates.
-    # pystache may be used during deployment as part of the process that
-    # automatically defines Guacamole connections to other instances
-    - name: Install boto3 and pystache
-      ansible.builtin.pip:
-        executable: pip3
+    # pystache may be used during deployment as part of the process
+    # that automatically defines Guacamole connections to other
+    # instances.
+    - name: Install python3-boto3 and python3-pystache
+      ansible.builtin.package:
         name:
-          - boto3
-          - pystache
+          - python3-boto3
+          - python3-pystache

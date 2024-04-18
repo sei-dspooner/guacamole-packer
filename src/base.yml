@@ -1,8 +1,8 @@
 ---
-- hosts: all
-  name: Setup base image
-  become: yes
-  become_method: sudo
+- name: Setup base image
+  hosts: all
+  become: true
+  become_method: ansible.builtin.sudo
   tasks:
     - name: Install and configure automated security updates
       ansible.builtin.include_role:
